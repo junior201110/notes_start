@@ -32,8 +32,9 @@ public class SalaUsuario extends Activity {
     String login, id;
     private ProgressDialog progressDialog;
     private Map<String,String> params;
-    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
+    private String url = "http://192.168.43.213/nef/noivosemfesta/index.php";
     private RequestQueue rq;
+    Intent intent = getIntent();
     ListView l;
    private int[] itemId;
 
@@ -46,7 +47,7 @@ public class SalaUsuario extends Activity {
 
 
 
-        Intent intent = getIntent();
+
 
         id = intent.getStringExtra("id");
         login = intent.getStringExtra("login");
@@ -63,7 +64,6 @@ public class SalaUsuario extends Activity {
 
                 makeAlertDialog("ITEM", item);
 
-                verItems();
 
 
             }
@@ -185,12 +185,21 @@ public class SalaUsuario extends Activity {
 
     }
 
-    public void verItems(){
+    public void verItems(String desc, String idp, String data, String nnotas, String produto ) throws Exception{
 
-        for(int i=0;i<itemId.length;i++){
-            Log.i("ID", String.valueOf(itemId[i]));
-        }
+        intent = new Intent(SalaUsuario.this,PedidosView.class);
+
+        intent.putExtra("desc",desc);
+        intent.putExtra("idp",idp);
+        intent.putExtra("data",data);
+        intent.putExtra("nnotas",nnotas);
+        intent.putExtra("produto",produto);
+        intent.putExtra("idu",id);
+
+            startActivity(intent);
 
     }
+
+
 
 }
