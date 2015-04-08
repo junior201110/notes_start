@@ -170,9 +170,15 @@ public class Principal extends ActionBarActivity {
     }
     public void trocaTela(String tela, JSONObject response) throws Exception{
         if(tela.equals("salaUsuario")){
-            String user = response.getString("login");
+
+            String login = response.getString("login");
+            String id = response.getString("id");
+
             Intent intent = new Intent(this, SalaUsuario.class);
-            intent.putExtra("user", user);
+
+            intent.putExtra("login", login);
+            intent.putExtra("id",id);
+
             startActivity(intent);
         }
     }
