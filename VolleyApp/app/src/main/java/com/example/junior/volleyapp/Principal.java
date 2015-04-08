@@ -78,6 +78,7 @@ public class Principal extends ActionBarActivity {
                 public void onResponse(JSONObject response) {
 
                     try {
+
                         trocaTela("salaUsuario",response);
 
                     } catch (JSONException e) {
@@ -94,7 +95,7 @@ public class Principal extends ActionBarActivity {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
 
-                    Toast.makeText(Principal.this, "Erro=> "+volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(Principal.this, "Erro volley=> "+volleyError.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
             });

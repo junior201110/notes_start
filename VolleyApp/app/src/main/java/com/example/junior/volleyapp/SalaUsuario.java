@@ -3,7 +3,6 @@ package com.example.junior.volleyapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 public class SalaUsuario extends ActionBarActivity {
 
-    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class SalaUsuario extends ActionBarActivity {
 
         TextView txt = new TextView(this);
         txt.setTextSize(30);
-        txt.setText(user + "=>Bem vindo ao Sistema de Contagem de notas \n Seu id é "+String.va);
+        txt.setText(login + "=>Bem vindo ao Sistema de Contagem de notas \n Seu id é " + id);
 
         setContentView(txt);
 
@@ -55,8 +53,5 @@ public class SalaUsuario extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    public void setData(){
-        Log.i("Recebido", user);
     }
 }
