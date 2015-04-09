@@ -29,12 +29,15 @@ public class CustomJsonObjectRequest extends Request<JSONObject>{
         this.params = params;
         this.response = response;
 
+
     }
     public CustomJsonObjectRequest(int method, String url,Map<String, String > params,Response.Listener<JSONObject> response, Response.ErrorListener listener) {
+
         super(method, url, listener);
 
         this.params = params;
         this.response = response;
+
 
     }
     public Map<String, String> getParams() throws AuthFailureError {
@@ -44,6 +47,7 @@ public class CustomJsonObjectRequest extends Request<JSONObject>{
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         Log.i("1","entra try");
+
         try {
 
             String js = new String(response.data, HttpHeaderParser.parseCharset(response.headers));

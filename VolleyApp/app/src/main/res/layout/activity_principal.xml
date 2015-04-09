@@ -68,6 +68,13 @@
                 android:text="Log =>"
                 android:background="@color/primary_material_light"
                 />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/pgbExe"
+                android:layout_margin="1000dp"
+                />
         </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

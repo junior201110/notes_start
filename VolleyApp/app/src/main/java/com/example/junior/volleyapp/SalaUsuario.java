@@ -22,12 +22,10 @@ public class SalaUsuario extends ActionBarActivity {
         String id = intent.getStringExtra("id");
 
 
-        TextView txt = new TextView(this);
-        txt.setTextSize(30);
-        txt.setText(login + "=>Bem vindo ao Sistema de Contagem de notas \n Seu id é " + id);
+        TextView txt = (TextView) findViewById(R.id.txtL);
+        txt.setText(txt.getText().toString()+" - "+login);
 
-        setContentView(txt);
-
+        this.setTitle(login+" - "+id);
 
 
     }

@@ -1,5 +1,6 @@
 package com.example.junior.volleyapp;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,7 +32,9 @@ import java.util.Map;
 public class Principal extends ActionBarActivity {
 
     private EditText edtNl, edtSenha;
-    private  String url = "http://webserverandroid.esy.es/inicio/post/";
+    private ProgressBar progressBar;
+    //private  String url = "http://webserverandroid.esy.es/inicio/post/";
+    private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/";
     private RequestQueue rq ;
     private Map<String, String> params;
     private Gson json;
@@ -42,6 +46,10 @@ public class Principal extends ActionBarActivity {
 
         edtNl = (EditText) findViewById(R.id.edtNL);
         edtSenha = (EditText) findViewById(R.id.edtSenha);
+        progressBar = new ProgressBar(Principal.this);
+
+
+
 
         rq = Volley.newRequestQueue(Principal.this);
 
@@ -70,6 +78,8 @@ public class Principal extends ActionBarActivity {
         params.put("nome",edtNl.getText().toString());
         params.put("senha",edtSenha.getText().toString());
 
+
+
         CustomJsonObjectRequest com = new CustomJsonObjectRequest(Request.Method.POST,
                 url+"jor",
                 params,
@@ -78,8 +88,21 @@ public class Principal extends ActionBarActivity {
                 public void onResponse(JSONObject response) {
 
                     try {
+                        progressBar.setTop(10);
+                        progressBar.setY(100);
 
-                        trocaTela("salaUsuario",response);
+                        String verifica = response.getString("erro");
+
+                        if(verifica.equals("404")){
+                            AlertDialog.Builder alert = new AlertDialog.Builder(Principal.this);
+                            alert.setTitle("ERRO :'(");
+                            alert.setMessage("Usuario não encontrado\n ou não cadastrado.\n Tente denovo");
+                            alert.show();
+                        }else{
+
+                            setContentView(progressBar);
+                            trocaTela("salaUsuario",response);
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
