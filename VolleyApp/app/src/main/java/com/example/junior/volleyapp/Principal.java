@@ -33,8 +33,8 @@ public class Principal extends ActionBarActivity {
 
     private EditText edtNl, edtSenha;
     private ProgressBar progressBar;
-    //private  String url = "http://webserverandroid.esy.es/inicio/post/";
-    private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/";
+    private  String url = "http://webserverandroid.esy.es/inicio/post/";
+    //private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/";
     private RequestQueue rq ;
     private Map<String, String> params;
     private Gson json;
