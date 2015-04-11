@@ -1,6 +1,7 @@
 package com.example.junior.volleyapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -38,6 +39,7 @@ public class Principal extends ActionBarActivity {
     private RequestQueue rq ;
     private Map<String, String> params;
     private Gson json;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class Principal extends ActionBarActivity {
             }
         });*/
 
+        progressDialog = ProgressDialog.show(Principal.this, "Title","CAREGANDO...",true);
+
         params = new HashMap<String, String>();
 
         params.put("nome",edtNl.getText().toString());
@@ -87,9 +91,9 @@ public class Principal extends ActionBarActivity {
                 @Override
                 public void onResponse(JSONObject response) {
 
+                    progressDialog.dismiss();
+
                     try {
-                        progressBar.setTop(10);
-                        progressBar.setY(100);
 
                         String verifica = response.getString("erro");
 
@@ -99,8 +103,6 @@ public class Principal extends ActionBarActivity {
                             alert.setMessage("Usuario não encontrado\n ou não cadastrado.\n Tente denovo");
                             alert.show();
                         }else{
-
-                            setContentView(progressBar);
                             trocaTela("salaUsuario",response);
                         }
 
@@ -130,17 +132,14 @@ public class Principal extends ActionBarActivity {
 
         params = new HashMap<String, String>();
 
-        params.put("nome",edtNl.getText().toString());
-        params.put("senha",edtSenha.getText().toString());
-
-        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.POST,
-                url+"jar",
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET,
+                url+"jar/"+edtNl.getText().toString()+"/"+edtSenha.getText().toString(),
                 params,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        Toast.makeText(Principal.this, "RECEBIDO: "+response,Toast.LENGTH_LONG).show();
+                        Toast.makeText(Principal.this, "RECEBIDO VIA GET: "+response,Toast.LENGTH_LONG).show();
 
                         Log.i("Script","Sucess=>" + response);
 
@@ -202,6 +201,8 @@ public class Principal extends ActionBarActivity {
 
             intent.putExtra("login", login);
             intent.putExtra("id",id);
+
+            this.setContentView(R.layout.activity_principal);
 
             startActivity(intent);
         }

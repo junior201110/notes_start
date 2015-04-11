@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class SalaUsuario extends ActionBarActivity {
 
-
+    String url = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
