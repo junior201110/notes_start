@@ -31,7 +31,9 @@ public class Principal extends ActionBarActivity {
     private EditText edtNl, edtSenha;
     //private ProgressBar progressBar;
     //private  String url = "http://webserverandroid.esy.es/inicio/post/";
-    private  String url = "http://192.168.42.142/nef/noivosemfesta/index.php/inicio/post/";
+    //private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/jor";
+    private  String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
+
     private RequestQueue rq ;
     private Map<String, String> params;
     private ProgressDialog progressDialog;
@@ -79,7 +81,7 @@ public class Principal extends ActionBarActivity {
 
 
         CustomJsonObjectRequest com = new CustomJsonObjectRequest(Request.Method.POST,
-                url+"jor",
+                url+"/inicio/post/jor",
                 params,
                 new Response.Listener<JSONObject>() {
                 @Override
@@ -97,7 +99,9 @@ public class Principal extends ActionBarActivity {
                             alert.show();
                         }else{
                             progressDialog.dismiss();
+                            Log.i("LOG","LOGADO");
                             trocaTela("salaUsuario",response);
+
                         }
 
                     } catch (JSONException e) {
@@ -167,15 +171,58 @@ public class Principal extends ActionBarActivity {
     public void trocaTela(String tela, JSONObject response) throws Exception{
         if(tela.equals("salaUsuario")){
 
+            Log.i("Logado","Usuario Encontrado");
+
             String login = response.getString("login");
             String id = response.getString("id");
 
             Intent intent = new Intent(this, SalaUsuario.class);
 
             intent.putExtra("login", login);
-            intent.putExtra("id", id);
+            callByJsonArraytRequest2(id);
+
+            rq.cancelAll("tag");
 
             startActivity(intent);
+
         }
+    }
+    public void callByJsonArraytRequest2(String id) throws Exception{
+
+        progressDialog = ProgressDialog.show(Principal.this,"Title","Aguarde...");
+        final UserCapsule pedido = new UserCapsule();
+
+
+
+        CustomJsonArraytRequest com = new CustomJsonArraytRequest(Request.Method.GET,
+                url+"/pedidos/jor/"+id,
+                params,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            progressDialog.dismiss();
+                            pedido.setResponse(response);
+
+                        } catch (Exception e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
+                            Log.i("Erro no metodo de troca", e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Principal.this, "Erro volley=> "+volleyError.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+        com.setTag("tag");
+        rq.add(com);
     }
 }
