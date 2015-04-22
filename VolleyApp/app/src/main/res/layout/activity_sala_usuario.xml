@@ -1,21 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="22px"
-        android:layout_height="22px"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="10px"
-        android:layout_marginTop="4px"
-        android:src="@android:drawable/bottom_bar" >
-    </ImageView>
-    <TextView
-        android:id="@+id/label"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SalaUsuario" >
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </ListView>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/undobar"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@+id/label"
-        android:textSize="30px" >
-    </TextView>
-</RelativeLayout>
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="20dp"
+        android:alpha="100"
+        android:background="#808080"
+        android:dividerPadding="11dp"
+        android:padding="4dp" >
+        <TextView
+            android:id="@+id/undobar_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deleted"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff" />
+        <Button
+            android:id="@+id/undobar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:onClick="onClick"
+            android:background="#808080"
+            android:drawableLeft="@android:drawable/button_onoff_indicator_off"
+            android:text="Undo"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/fundoPadrao">
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgMenu"
+            android:background="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/txtLogin"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</FrameLayout>
