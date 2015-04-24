@@ -6,4 +6,5 @@
     <string name="title_activity_sala_usuario">SalaUsuario</string>
     <string name="title_activity_pedidos">Pedidos</string>
     <color name="fundoPadrao">#8f004aff</color>
+    <color name="fundoPadraoTXT">#fff</color>
 </resources>
