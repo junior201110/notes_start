@@ -1,8 +1,12 @@
 package com.example.junior.volleyapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,30 +16,36 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.junior.volleyapp.conexao.CustomJsonArraytRequest;
+
+import org.json.JSONArray;
+
+import java.util.Map;
+
 
 public class SalaUsuario extends Activity {
     private View viewContainer;
     String login, id;
+    private ProgressDialog progressDialog;
+    private Map<String,String> params;
+    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
+    private RequestQueue rq;
+    ListView l;
+   private int[] itemId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super .onCreate(savedInstanceState);
         setContentView(R.layout.activity_sala_usuario);
-        ListView l = (ListView) findViewById(R.id.listview);
-        String[] values = new String[] {"", "Ubuntu", "Android", "iPhone",
-                "Windows", "Ubuntu", "Android", "iPhone", "Windows","Ubuntu", "Android", "iPhone",
-                "Windows", "Ubuntu", "Android", "iPhone", "Windows"  };
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>( this,
-                android.R.layout.simple_list_item_1, values);
-        viewContainer = findViewById(R.id.undobar);
-        l.setAdapter(adapter);
-        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        l  = (ListView) findViewById(R.id.listview);
+        rq = Volley.newRequestQueue(SalaUsuario.this);
 
-                String item = (String) adapterView.getAdapter().getItem(i);
-                Toast.makeText(SalaUsuario.this,"Item Clicado" + item,Toast.LENGTH_LONG).show();
-            }
-        });
+
 
         Intent intent = getIntent();
 
@@ -44,6 +54,30 @@ public class SalaUsuario extends Activity {
 
         TextView txtLOGIN = (TextView) findViewById(R.id.txtLogin);
         txtLOGIN.setText("Pedidos - "+ login);
+
+        viaJsonArrayGET();
+        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String item = (String) adapterView.getAdapter().getItem(i);
+
+                makeAlertDialog("ITEM", item);
+
+                Log.i("ID ITEM",String.valueOf(i));
+
+
+            }
+        });
+        l.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+            public boolean onLongClick(View view) {
+
+                makeAlertDialog("Clique longo", "Clique Longo Acionado");
+
+                return false;
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,7 +91,7 @@ public class SalaUsuario extends Activity {
         return true;
     }
     public void onClick(View view) {
-        Toast.makeText( this , "Deletion undone", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Deletion undone", Toast.LENGTH_LONG).show();
         viewContainer.setVisibility(View.GONE);
     }
     public static void showUndo( final View viewContainer) {
@@ -71,4 +105,78 @@ public class SalaUsuario extends Activity {
                     }
                 });
     }
+
+    public void viaJsonArrayGET(){
+        progressDialog = ProgressDialog.show(SalaUsuario.this,"Aguarde","Caregando Items",true,true,new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                makeAlertDialog("OK", "Cancelado");
+            }
+        });
+        String id = this.id;
+
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(
+                Request.Method.GET,url+"/pedidos/jor/"+id,params,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                try{
+
+
+                        criaLista(jsonArray);
+                    progressDialog.dismiss();
+
+                }catch (Exception e){
+                    Log.i("tag", e.toString());
+                }
+
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                makeAlertDialog("ERRO",volleyError.toString());
+
+            }
+        }
+        );
+
+        jar.setTag("PEDIDOS");
+        rq.add(jar);
+
+    }
+
+    public void criaLista(JSONArray jsonArray) throws Exception{
+        String[] values = new String[jsonArray.length()];
+        itemId = new int[jsonArray.length()];
+        Log.i("TAMANHO ARRAY", String.valueOf(values.length));
+        if(jsonArray.length() > 0){
+            for (int i=0;i<jsonArray.length();i++){
+                values[i] = String.valueOf(jsonArray.getJSONObject(i).getString("desc"));
+                itemId[i] = jsonArray.getJSONObject(i).getInt("idp");
+            }
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,values);
+
+        //List<String> adapter = new ArrayList<String>();
+
+
+        l.setAdapter(adapter);
+
+    }
+
+    public void makeAlertDialog(String title, String mesage){
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(SalaUsuario.this);
+
+        alert.setTitle(title);
+        alert.setMessage(mesage);
+        alert.setCancelable(true);
+        alert.show();
+
+    }
+
+    public void verifica(){
+        viaJsonArrayGET();
+    }
+
 }

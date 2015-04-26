@@ -1,20 +1,37 @@
 package com.example.junior.volleyapp;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.junior.volleyapp.conexao.CustomJsonObjectRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Principal extends Activity {
 
-    ImageButton imageButton;
-    TextView    txtLogin;
-    TextView    pswSenha;
-
+    private ImageButton     imageButton;
+    private TextView        txtLogin;
+    private TextView        pswSenha;
+    private ProgressDialog  progressDialog;
+    private Map<String,String> params;
+    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
+    private RequestQueue rq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +41,19 @@ public class Principal extends Activity {
         txtLogin = (TextView) findViewById(R.id.txtLogin);
         pswSenha = (TextView) findViewById(R.id.txtSenha);
 
-        imageButton =(ImageButton) findViewById(R.id.sendUser);
+        rq = Volley.newRequestQueue(Principal.this);
 
+        imageButton =(ImageButton) findViewById(R.id.sendUser);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(Principal.this);
-                alert.setTitle("ALERT");
-                alert.setIcon(R.drawable.ic_account_circle_white_48dp);
-                alert.setMessage("CLICADO ->"+ txtLogin.getText().toString()+" / "+pswSenha.getText().toString());
-                alert.show();
+
+                try {
+                    viaJsonObjectPOST();
+                } catch (Exception e) {
+                    Log.i("ERRO PRINCIPAL->",e.toString());
+                }
+
             }
         });
     }
@@ -47,6 +67,45 @@ public class Principal extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         return true;
+    }
+
+    private void mudaTela(String id, String login) throws Exception{
+        Intent intent = new Intent(Principal.this, SalaUsuario.class);
+        intent.putExtra("id",id);
+        intent.putExtra("login",login);
+        startActivity(intent);
+
+    }
+public void viaJsonObjectPOST() throws  Exception{
+    params = new HashMap<String, String>();
+    params.put("nome",txtLogin.getText().toString());
+    params.put("senha",pswSenha.getText().toString());
+
+     progressDialog = ProgressDialog.show(Principal.this,"Logando","AGURADE...",true,true);
+        CustomJsonObjectRequest jor = new CustomJsonObjectRequest(
+                Request.Method.POST,url+"/inicio/post/jor",params,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                progressDialog.dismiss();
+
+                try {
+                    mudaTela(jsonObject.getString("id"),jsonObject.getString("login"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                progressDialog.dismiss();
+                Log.i("ERRO URLCONTROLER ",volleyError.toString());
+
+            }
+        });
+
+        jor.setTag("LOGIN");
+        rq.add(jor);
     }
 
 }
