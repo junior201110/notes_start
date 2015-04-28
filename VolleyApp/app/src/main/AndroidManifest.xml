@@ -3,9 +3,12 @@
     package="com.example.junior.volleyapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+=======
+>>>>>>> eaf2e1f7690a1b4f2f13003adba24344a13e08c3
 
     <application
         android:allowBackup="true"
@@ -14,9 +17,13 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Principal"
+<<<<<<< HEAD
             android:label="@string/app_name"
             android:configChanges="keyboardHidden|orientation|screenSize"
             >
+=======
+            android:label="@string/app_name" >
+>>>>>>> eaf2e1f7690a1b4f2f13003adba24344a13e08c3
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,10 +34,13 @@
             android:name=".SalaUsuario"
             android:label="@string/title_activity_sala_usuario" >
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".Pedidos"
             android:label="@string/title_activity_pedidos" >
         </activity>
+=======
+>>>>>>> eaf2e1f7690a1b4f2f13003adba24344a13e08c3
     </application>
 
 </manifest>

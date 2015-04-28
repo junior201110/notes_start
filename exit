@@ -1,0 +1,67 @@
+[1mdiff --git a/VolleyApp/app/src/main/java/com/example/junior/volleyapp/Principal.java b/VolleyApp/app/src/main/java/com/example/junior/volleyapp/Principal.java[m
+[1mindex 83ac894..4406efe 100644[m
+[1m--- a/VolleyApp/app/src/main/java/com/example/junior/volleyapp/Principal.java[m
+[1m+++ b/VolleyApp/app/src/main/java/com/example/junior/volleyapp/Principal.java[m
+[36m@@ -33,8 +33,8 @@[m [mpublic class Principal extends ActionBarActivity {[m
+ [m
+     private EditText edtNl, edtSenha;[m
+     private ProgressBar progressBar;[m
+[31m-    private  String url = "http://webserverandroid.esy.es/inicio/post/";[m
+[31m-    //private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/";[m
+[32m+[m[32m    //private  String url = "http://webserverandroid.esy.es/inicio/post/";[m
+[32m+[m[32m    private  String url = "http://192.168.43.213/nef/noivosemfesta/index.php/inicio/post/";[m
+     private RequestQueue rq ;[m
+     private Map<String, String> params;[m
+     private Gson json;[m
+[36m@@ -100,7 +100,7 @@[m [mpublic class Principal extends ActionBarActivity {[m
+                             alert.show();[m
+                         }else{[m
+ [m
+[31m-                            setContentView(progressBar);[m
+[32m+[m[32m                            setContentView(R.layout.temp);[m
+                             trocaTela("salaUsuario",response);[m
+                         }[m
+ [m
+[36m@@ -130,17 +130,14 @@[m [mpublic class Principal extends ActionBarActivity {[m
+ [m
+         params = new HashMap<String, String>();[m
+ [m
+[31m-        params.put("nome",edtNl.getText().toString());[m
+[31m-        params.put("senha",edtSenha.getText().toString());[m
+[31m-[m
+[31m-        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.POST,[m
+[31m-                url+"jar",[m
+[32m+[m[32m        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET,[m
+[32m+[m[32m                url+"jar/"+edtNl.getText().toString()+"/"+edtSenha.getText().toString(),[m
+                 params,[m
+                 new Response.Listener<JSONArray>() {[m
+                     @Override[m
+                     public void onResponse(JSONArray response) {[m
+ [m
+[31m-                        Toast.makeText(Principal.this, "RECEBIDO: "+response,Toast.LENGTH_LONG).show();[m
+[32m+[m[32m                        Toast.makeText(Principal.this, "RECEBIDO VIA GET: "+response,Toast.LENGTH_LONG).show();[m
+ [m
+                         Log.i("Script","Sucess=>" + response);[m
+ [m
+[36m@@ -203,6 +200,8 @@[m [mpublic class Principal extends ActionBarActivity {[m
+             intent.putExtra("login", login);[m
+             intent.putExtra("id",id);[m
+ [m
+[32m+[m[32m            this.setContentView(R.layout.activity_principal);[m
+[32m+[m
+             startActivity(intent);[m
+         }[m
+     }[m
+[1mdiff --git a/VolleyApp/app/src/main/java/com/example/junior/volleyapp/SalaUsuario.java b/VolleyApp/app/src/main/java/com/example/junior/volleyapp/SalaUsuario.java[m
+[1mindex 07861ae..e2cd5a5 100644[m
+[1m--- a/VolleyApp/app/src/main/java/com/example/junior/volleyapp/SalaUsuario.java[m
+[1m+++ b/VolleyApp/app/src/main/java/com/example/junior/volleyapp/SalaUsuario.java[m
+[36m@@ -10,7 +10,7 @@[m [mimport android.widget.TextView;[m
+ [m
+ public class SalaUsuario extends ActionBarActivity {[m
+ [m
+[31m-[m
+[32m+[m[32m    String url = "";[m
+     @Override[m
+     protected void onCreate(Bundle savedInstanceState) {[m
+         super.onCreate(savedInstanceState);[m

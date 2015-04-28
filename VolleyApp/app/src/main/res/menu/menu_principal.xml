@@ -2,7 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Principal">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
+<<<<<<< HEAD
         android:orderInCategory="100" app:showAsAction="never"
 
         />
+=======
+        android:orderInCategory="100" app:showAsAction="never" />
+>>>>>>> eaf2e1f7690a1b4f2f13003adba24344a13e08c3
 </menu>
