@@ -9,7 +9,8 @@
     android:layout_height="220dp"
     android:background="@color/fundoPadrao"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/frameLayout">
 
 
     <ImageView
@@ -52,6 +53,31 @@
             android:id="@+id/sendUser"
             android:background="@drawable/ic_thumb_up_white_36dp"
             android:layout_gravity="center_horizontal|bottom" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/fundoPadrao"
+        android:id="@+id/frame">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="NOTES - START"
+            android:id="@+id/textView"
+            android:textColor="#fff"
+            android:textStyle="bold|italic"
+            android:layout_gravity="center" />
     </FrameLayout>
 
 </RelativeLayout>

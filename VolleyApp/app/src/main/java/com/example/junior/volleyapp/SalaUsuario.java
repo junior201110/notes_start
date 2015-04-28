@@ -3,7 +3,6 @@ package com.example.junior.volleyapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,20 +63,24 @@ public class SalaUsuario extends Activity {
 
                 makeAlertDialog("ITEM", item);
 
-                Log.i("ID ITEM",String.valueOf(i));
+                verItems();
 
 
             }
         });
-        l.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-            public boolean onLongClick(View view) {
+        l.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-                makeAlertDialog("Clique longo", "Clique Longo Acionado");
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                           int index, long arg3) {
 
-                return false;
+                Log.i("TAG","in onLongClick");
+                String str=l.getItemAtPosition(index).toString();
+
+                Log.i("TAG","long click : " +str);
+                return true;
             }
         });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,12 +110,7 @@ public class SalaUsuario extends Activity {
     }
 
     public void viaJsonArrayGET(){
-        progressDialog = ProgressDialog.show(SalaUsuario.this,"Aguarde","Caregando Items",true,true,new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                makeAlertDialog("OK", "Cancelado");
-            }
-        });
+        progressDialog = ProgressDialog.show(SalaUsuario.this,"Aguarde","Caregando Items",true,true);
         String id = this.id;
 
         CustomJsonArraytRequest jar = new CustomJsonArraytRequest(
@@ -146,16 +144,28 @@ public class SalaUsuario extends Activity {
     }
 
     public void criaLista(JSONArray jsonArray) throws Exception{
+        progressDialog.dismiss();
+
         String[] values = new String[jsonArray.length()];
         itemId = new int[jsonArray.length()];
+
         Log.i("TAMANHO ARRAY", String.valueOf(values.length));
-        if(jsonArray.length() > 0){
-            for (int i=0;i<jsonArray.length();i++){
-                values[i] = String.valueOf(jsonArray.getJSONObject(i).getString("desc"));
-                itemId[i] = jsonArray.getJSONObject(i).getInt("idp");
+
+            if(jsonArray.getJSONObject(0).getString("desc").equals("404")){
+                makeAlertDialog("ERRO","USUSARIO AINDA NÃO POSSUi\n PEDIDOS CADASTRADO");
+                values[0] = "";
+            }else{
+                if(jsonArray.length() > 0){
+                    for (int i=0;i<jsonArray.length();i++) {
+
+                        values[i] = String.valueOf(jsonArray.getJSONObject(i).getString("desc"));
+                        itemId[i] = jsonArray.getJSONObject(i).getInt("idp");
+                    }
+                    }
             }
-        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,values);
+
+
 
         //List<String> adapter = new ArrayList<String>();
 
@@ -175,8 +185,12 @@ public class SalaUsuario extends Activity {
 
     }
 
-    public void verifica(){
-        viaJsonArrayGET();
+    public void verItems(){
+
+        for(int i=0;i<itemId.length;i++){
+            Log.i("ID", String.valueOf(itemId[i]));
+        }
+
     }
 
 }

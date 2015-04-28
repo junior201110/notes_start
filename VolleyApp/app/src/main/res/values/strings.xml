@@ -7,4 +7,7 @@
     <string name="title_activity_pedidos">Pedidos</string>
     <color name="fundoPadrao">#8f004aff</color>
     <color name="fundoPadraoTXT">#fff</color>
+    <dimen name="width">50dp</dimen>
+    <dimen name="hight">50dp</dimen>
+
 </resources>
