@@ -6,6 +6,7 @@ import android.os.Bundle;
 /**
  * Created by junior on 26/04/15.
  */
+
 public class PedidosView extends Activity {
 
     @Override
@@ -13,6 +14,9 @@ public class PedidosView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedidos);
+
+
     }
+
 
 }
