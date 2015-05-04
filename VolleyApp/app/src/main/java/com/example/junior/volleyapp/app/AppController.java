@@ -1,4 +1,4 @@
-package com.example.junior.volleyapp;
+package com.example.junior.volleyapp.app;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -7,8 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-
-import info.androidhive.customlistviewvolley.util.LruBitmapCache;
 
 public class AppController extends Application {
 
@@ -37,14 +35,16 @@ public class AppController extends Application {
 		return mRequestQueue;
 	}
 
+	/*
+
 	public ImageLoader getImageLoader() {
 		getRequestQueue();
 		if (mImageLoader == null) {
 			mImageLoader = new ImageLoader(this.mRequestQueue,
-					new LruBitmapCache());
+					new LruBitmapCache() );
 		}
 		return this.mImageLoader;
-	}
+	}*/
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty
