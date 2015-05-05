@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -120,7 +121,11 @@ public class SalaUsuario extends Activity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                TextView txt = (TextView) findViewById(R.id.rating);
+
+                Toast.makeText(SalaUsuario.this,txt.getText().toString(),Toast.LENGTH_LONG).show();
 
 
             }
