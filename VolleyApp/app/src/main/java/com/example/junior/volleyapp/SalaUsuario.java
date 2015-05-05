@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.junior.volleyapp.adater.CustomListAdapter;
 import com.example.junior.volleyapp.conexao.CustomJsonArraytRequest;
 import com.example.junior.volleyapp.model.Movie;
@@ -27,16 +29,16 @@ import java.util.Map;
 
 
 public class SalaUsuario extends Activity {
-    private View viewContainer;
     private String login, id;
     private ProgressDialog progressDialog;
     private Map<String, String> params;
-    private String url = "http://192.168.43.213/nef/noivosemfesta/index.php";
+    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
     private RequestQueue rq;
-    private Intent intent = getIntent();
+    private Intent intent;
     private ListView listView;
     private CustomListAdapter adapter;
     private List<Movie> movieList = new ArrayList<Movie>();
+    private TextView txtLogin;
     private int[] itemId;
 
 
@@ -46,15 +48,26 @@ public class SalaUsuario extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sala_usuario);
 
+
         listView = (ListView) findViewById(R.id.listview);
         adapter = new CustomListAdapter(this, movieList);
+        txtLogin = (TextView) findViewById(R.id.txtLogin);
+
         listView.setAdapter(adapter);
 
+        rq = Volley.newRequestQueue(SalaUsuario.this);
 
+        intent = getIntent();
+
+        id = intent.getStringExtra("id");
+        login = intent.getStringExtra("login");
+
+        txtLogin.setText(login);
         // changing action bar color
 
         // Creating volley request obj
-        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET, url, params, new Response.Listener<JSONArray>() {
+        progressDialog = ProgressDialog.show(SalaUsuario.this,"Carregando Pedidos","Aguarde",true);
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET, url+"/pedidos/jor/"+id, params, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
@@ -82,8 +95,13 @@ public class SalaUsuario extends Activity {
                         // adding movie to movies array
                         movieList.add(movie);
 
+                        progressDialog.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        progressDialog.dismiss();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        progressDialog.dismiss();
                     }
 
                 }
@@ -91,10 +109,13 @@ public class SalaUsuario extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Log.i("ERRO", volleyError.toString());
+                progressDialog.dismiss();
             }
         });
 
+        jar.setTag("TAG");
+        rq.add(jar);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
