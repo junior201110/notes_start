@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+import com.example.junior.volleyapp.R;
+import com.example.junior.volleyapp.model.Movie;
 
-import info.androidhive.customlistviewvolley.R;
-import info.androidhive.customlistviewvolley.model.Movie;
+import java.util.List;
 
 public class CustomListAdapter extends BaseAdapter {
 	private Activity activity;
@@ -19,10 +19,12 @@ public class CustomListAdapter extends BaseAdapter {
 	private List<Movie> movieItems;
 	//ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
+
 	public CustomListAdapter(Activity activity, List<Movie> movieItems) {
 		this.activity = activity;
 		this.movieItems = movieItems;
 	}
+
 
 	@Override
 	public int getCount() {
