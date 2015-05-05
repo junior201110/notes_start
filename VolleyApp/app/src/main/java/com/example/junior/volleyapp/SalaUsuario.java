@@ -123,9 +123,13 @@ public class SalaUsuario extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-                TextView txt = (TextView) findViewById(R.id.rating);
 
-                Toast.makeText(SalaUsuario.this,txt.getText().toString(),Toast.LENGTH_LONG).show();
+
+                String txt = adapterView.getItemAtPosition(position).toString();
+
+
+
+                Toast.makeText(SalaUsuario.this,txt,Toast.LENGTH_LONG).show();
 
 
             }
