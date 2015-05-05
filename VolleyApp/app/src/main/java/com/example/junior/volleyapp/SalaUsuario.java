@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.junior.volleyapp.adater.CustomListAdapter;
+import com.example.junior.volleyapp.app.AppController;
 import com.example.junior.volleyapp.model.Movie;
 
 import org.json.JSONArray;
@@ -59,7 +60,6 @@ public class SalaUsuario extends Activity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-                        hidePDialog();
 
                         // Parsing json
                         for (int i = 0; i < response.length(); i++) {
@@ -96,8 +96,7 @@ public class SalaUsuario extends Activity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hidePDialog();
+                VolleyLog.d("", "Error: " + error.getMessage());
 
             }
         });
@@ -110,7 +109,6 @@ public class SalaUsuario extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-
             }
         });
 
@@ -119,15 +117,7 @@ public class SalaUsuario extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hidePDialog();
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
-    }
+     }
 
 
 }
