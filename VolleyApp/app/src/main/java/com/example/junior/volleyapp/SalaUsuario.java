@@ -9,13 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.junior.volleyapp.adater.CustomListAdapter;
-import com.example.junior.volleyapp.app.AppController;
+import com.example.junior.volleyapp.conexao.CustomJsonArraytRequest;
 import com.example.junior.volleyapp.model.Movie;
 
 import org.json.JSONArray;
@@ -43,6 +42,7 @@ public class SalaUsuario extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sala_usuario);
 
@@ -51,58 +51,51 @@ public class SalaUsuario extends Activity {
         listView.setAdapter(adapter);
 
 
-
         // changing action bar color
 
         // Creating volley request obj
-        JsonArrayRequest movieReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                JSONObject obj = response.getJSONObject(i);
-                                Movie movie = new Movie();
-                                movie.setTitle(obj.getString("desc"));
-                                //movie.setThumbnailUrl(obj.getString("image"));
-                                movie.setRating(obj.getString("data"));
-                                movie.setYear(obj.getString("nnotas"));
-
-                                // Genre is json array
-                                //JSONArray genreArry = obj.getJSONArray("genre");
-                                //ArrayList<String> genre = new ArrayList<String>();
-                                //for (int j = 0; j < genreArry.length(); j++) {
-                                //	genre.add((String) genreArry.get(j));
-                                //}
-                                movie.setGenre(obj.getString("produto"));
-
-                                // adding movie to movies array
-                                movieList.add(movie);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET, url, params, new Response.Listener<JSONArray>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("", "Error: " + error.getMessage());
+            public void onResponse(JSONArray response) {
+
+                Log.i("RESPOSTA", response.toString());
+
+                // Parsing json
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+
+                        JSONObject obj = response.getJSONObject(i);
+                        Movie movie = new Movie();
+                        movie.setTitle(obj.getString("desc"));
+                        //movie.setThumbnailUrl(obj.getString("image"));
+                        movie.setRating(obj.getString("data"));
+                        movie.setYear(obj.getString("nnotas"));
+
+                        // Genre is json array
+                        //JSONArray genreArry = obj.getJSONArray("genre");
+                        //ArrayList<String> genre = new ArrayList<String>();
+                        //for (int j = 0; j < genreArry.length(); j++) {
+                        //	genre.add((String) genreArry.get(j));
+                        //}
+                        movie.setGenre(obj.getString("produto"));
+
+                        // adding movie to movies array
+                        movieList.add(movie);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
 
             }
         });
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(movieReq);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
