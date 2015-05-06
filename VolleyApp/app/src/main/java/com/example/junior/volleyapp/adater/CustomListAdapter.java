@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.junior.volleyapp.R;
@@ -59,6 +60,7 @@ public class CustomListAdapter extends BaseAdapter {
 		TextView rating = (TextView) convertView.findViewById(R.id.rating);
 		TextView genre = (TextView) convertView.findViewById(R.id.genre);
 		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+		ImageButton btnVer = (ImageButton) convertView.findViewById(R.id.btnVer);
 
 
 		// getting movie data for the row
@@ -79,6 +81,9 @@ public class CustomListAdapter extends BaseAdapter {
 		
 		// release year
 		year.setText("Numero da Nota "+m.getYear());
+		//tag
+
+		btnVer.setTag(m.getTag());
 
 		return convertView;
 	}

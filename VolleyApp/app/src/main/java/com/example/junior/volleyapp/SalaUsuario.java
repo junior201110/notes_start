@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +40,7 @@ public class SalaUsuario extends Activity {
     private CustomListAdapter adapter;
     private List<Movie> movieList = new ArrayList<Movie>();
     private TextView txtLogin;
+    private ImageButton btnVer = (ImageButton) findViewById(R.id.btnVer);
     private int[] itemId;
 
 
@@ -92,8 +93,8 @@ public class SalaUsuario extends Activity {
                         //	genre.add((String) genreArry.get(j));
                         //}
                         movie.setGenre(obj.getString("produto"));
-
                         // adding movie to movies array
+                        movie.setTag;
                         movieList.add(movie);
 
                         progressDialog.dismiss();
@@ -123,13 +124,14 @@ public class SalaUsuario extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
+                try{
 
+                    String tag = btnVer.getTag().toString();
 
-                String txt = adapterView.getItemAtPosition(position).toString();
-
-
-
-                Toast.makeText(SalaUsuario.this,txt,Toast.LENGTH_LONG).show();
+                    Log.i("IDP", tag);
+                }catch (Exception e){
+                    Log.i("ERRO", e.toString());
+                }
 
 
             }

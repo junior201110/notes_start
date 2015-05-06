@@ -5,18 +5,20 @@ public class Movie {
 	private String year;
 	private String rating;
 	private String genre;
+	private String tag;
 
 	public Movie() {
 	}
 
 	public Movie(String name, String year, String rating,
-			String genre) {
+			String genre, String tag) {
 		// setado entre name e year /, String thumbnailUrl/
 		this.title = name;
 		//this.thumbnailUrl = thumbnailUrl;
 		this.year = year;
 		this.rating = rating;
 		this.genre = genre;
+		this.setTag(tag);
 	}
 
 	public String getTitle() {
@@ -59,4 +61,11 @@ public class Movie {
 		this.genre = genre;
 	}
 
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 }
