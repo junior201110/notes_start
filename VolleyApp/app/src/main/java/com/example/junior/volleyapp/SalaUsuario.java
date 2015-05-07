@@ -8,14 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.junior.volleyapp.adater.CustomListAdapter;
-import com.example.junior.volleyapp.app.AppController;
+import com.example.junior.volleyapp.conexao.CustomJsonArraytRequest;
 import com.example.junior.volleyapp.model.Movie;
 
 import org.json.JSONArray;
@@ -28,86 +29,109 @@ import java.util.Map;
 
 
 public class SalaUsuario extends Activity {
-    private View viewContainer;
     private String login, id;
     private ProgressDialog progressDialog;
     private Map<String, String> params;
-    private String url = "http://192.168.43.213/nef/noivosemfesta/index.php";
+    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
     private RequestQueue rq;
-    private Intent intent = getIntent();
+    private Intent intent;
     private ListView listView;
     private CustomListAdapter adapter;
     private List<Movie> movieList = new ArrayList<Movie>();
+    private TextView txtLogin;
     private int[] itemId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sala_usuario);
 
+
         listView = (ListView) findViewById(R.id.listview);
         adapter = new CustomListAdapter(this, movieList);
+        txtLogin = (TextView) findViewById(R.id.txtLogin);
+
         listView.setAdapter(adapter);
 
+        rq = Volley.newRequestQueue(SalaUsuario.this);
 
+        intent = getIntent();
 
+        id = intent.getStringExtra("id");
+        login = intent.getStringExtra("login");
+
+        txtLogin.setText(login);
         // changing action bar color
 
         // Creating volley request obj
-        JsonArrayRequest movieReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
+        progressDialog = ProgressDialog.show(SalaUsuario.this,"Carregando Pedidos","Aguarde",true);
 
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                JSONObject obj = response.getJSONObject(i);
-                                Movie movie = new Movie();
-                                movie.setTitle(obj.getString("desc"));
-                                //movie.setThumbnailUrl(obj.getString("image"));
-                                movie.setRating(obj.getString("data"));
-                                movie.setYear(obj.getString("nnotas"));
-
-                                // Genre is json array
-                                //JSONArray genreArry = obj.getJSONArray("genre");
-                                //ArrayList<String> genre = new ArrayList<String>();
-                                //for (int j = 0; j < genreArry.length(); j++) {
-                                //	genre.add((String) genreArry.get(j));
-                                //}
-                                movie.setGenre(obj.getString("produto"));
-
-                                // adding movie to movies array
-                                movieList.add(movie);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET, url+"/pedidos/jor/"+id, params, new Response.Listener<JSONArray>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("", "Error: " + error.getMessage());
+            public void onResponse(JSONArray response) {
 
+                Log.i("RESPOSTA", response.toString());
+
+                // Parsing json
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+
+                        Movie movie = new Movie();
+
+                        JSONObject obj = response.getJSONObject(i);
+                        // usar mais tarde -> movie.setThumbnailUrl(obj.getString("image"));
+
+                        movie.setIdp(obj.getString("idp"));
+                        movie.setDesc(obj.getString("desc"));
+                        movie.setProduto(obj.getString("produto"));
+                        movie.setNnotas(obj.getString("nnotas"));
+                        movie.setData(obj.getString("data"));
+
+                        // Genre is json array
+                        //JSONArray genreArry = obj.getJSONArray("genre");
+                        //ArrayList<String> genre = new ArrayList<String>();
+                        //for (int j = 0; j < genreArry.length(); j++) {
+                        //	genre.add((String) genreArry.get(j));
+                            //}
+                        // adding movie to movies array
+                        movieList.add(movie);
+                        progressDialog.dismiss();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                    }
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.i("ERRO", volleyError.toString());
+                progressDialog.dismiss();
             }
         });
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(movieReq);
+        jar.setTag("TAG");
+        rq.add(jar);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Intent intent = new Intent(SalaUsuario.this,Detalhes.class);
+                intent.putExtra("idp", movieList.get(i).getIdp());
+                intent.putExtra("desc", movieList.get(i).getDesc());
+                intent.putExtra("data", movieList.get(i).getData());
+                intent.putExtra("nnotas", movieList.get(i).getNnotas());
+                intent.putExtra("produtos", movieList.get(i).getProduto());
+
+                startActivity(intent);
 
             }
         });

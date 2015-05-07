@@ -30,7 +30,8 @@ public class Principal extends Activity {
     private TextView        pswSenha;
     private ProgressDialog  progressDialog;
     private Map<String,String> params;
-    private String url = "http://192.168.43.213/nef/noivosemfesta/index.php";
+    //private String url = "http://192.168.43.213/nef/noivosemfesta/index.php";
+    private String url = "http://192.168.56.1/nef/noivosemfesta/index.php";
     private RequestQueue rq;
 
     @Override
