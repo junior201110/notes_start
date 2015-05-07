@@ -1,12 +1,12 @@
 package com.example.junior.volleyapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 
-public class Detalhes extends ActionBarActivity {
+public class Detalhes extends Activity {
     private TextView data;
     private TextView nnota;
     private TextView produto;
@@ -29,4 +29,5 @@ public class Detalhes extends ActionBarActivity {
         desc.setText(intent.getStringExtra("desc"));
 
     }
+
 }
