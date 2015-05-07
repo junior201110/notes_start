@@ -24,8 +24,8 @@ public class Detalhes extends ActionBarActivity {
         desc    = (TextView) findViewById(R.id.detalhes_txt_desc);
 
         data.setText(intent.getStringExtra("data"));
-        nnota.setText(intent.getStringExtra("nnota"));
-        produto.setText(intent.getStringExtra("produto"));
+        nnota.setText(intent.getStringExtra("nnotas"));
+        produto.setText(intent.getStringExtra("produtos"));
         desc.setText(intent.getStringExtra("desc"));
 
     }

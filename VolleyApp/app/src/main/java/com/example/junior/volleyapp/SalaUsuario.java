@@ -81,18 +81,20 @@ public class SalaUsuario extends Activity {
                         Movie movie = new Movie();
 
                         JSONObject obj = response.getJSONObject(i);
-                        movie.setTitle(obj.getString("desc"));
-                        //movie.setThumbnailUrl(obj.getString("image"));
-                        movie.setRating(obj.getString("data"));
-                        movie.setYear(obj.getString("nnotas"));
+                        // usar mais tarde -> movie.setThumbnailUrl(obj.getString("image"));
+
+                        movie.setIdp(obj.getString("idp"));
+                        movie.setDesc(obj.getString("desc"));
+                        movie.setProduto(obj.getString("produto"));
+                        movie.setNnotas(obj.getString("nnotas"));
+                        movie.setData(obj.getString("data"));
 
                         // Genre is json array
                         //JSONArray genreArry = obj.getJSONArray("genre");
                         //ArrayList<String> genre = new ArrayList<String>();
                         //for (int j = 0; j < genreArry.length(); j++) {
                         //	genre.add((String) genreArry.get(j));
-                        //}
-                        movie.setGenre(obj.getString("produto"));
+                            //}
                         // adding movie to movies array
                         movieList.add(movie);
                         progressDialog.dismiss();
@@ -123,10 +125,11 @@ public class SalaUsuario extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(SalaUsuario.this,Detalhes.class);
-                intent.putExtra("desc", movieList.get(i).getTitle());
-                intent.putExtra("data", movieList.get(i).getRating());
-                intent.putExtra("nnotas", movieList.get(i).getYear());
-                intent.putExtra("produtos", movieList.get(i).getGenre());
+                intent.putExtra("idp", movieList.get(i).getIdp());
+                intent.putExtra("desc", movieList.get(i).getDesc());
+                intent.putExtra("data", movieList.get(i).getData());
+                intent.putExtra("nnotas", movieList.get(i).getNnotas());
+                intent.putExtra("produtos", movieList.get(i).getProduto());
 
                 startActivity(intent);
 

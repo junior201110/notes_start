@@ -60,10 +60,11 @@ public class CustomListAdapter extends BaseAdapter {
 		NetworkImageView thumbNail = (NetworkImageView) convertView
 				.findViewById(R.id.thumbnail);
 		*/
-		TextView title = (TextView) convertView.findViewById(R.id.title);
-		TextView rating = (TextView) convertView.findViewById(R.id.rating);
-		TextView genre = (TextView) convertView.findViewById(R.id.genre);
-		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+		TextView idp = (TextView) convertView.findViewById(R.id.row_idp);
+		TextView desc = (TextView) convertView.findViewById(R.id.row_desc);
+		TextView produto = (TextView) convertView.findViewById(R.id.row_produto);
+		TextView nnotas = (TextView) convertView.findViewById(R.id.row_nnotas);
+		TextView data = (TextView) convertView.findViewById(R.id.row_data);
 
 
 		// getting movie data for the row
@@ -74,17 +75,19 @@ public class CustomListAdapter extends BaseAdapter {
 		thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
 		*/
 		// title
-		title.setText(m.getTitle());
+
+		idp.setText(m.getIdp());
 		
 		// rating
-		rating.setText("Data: " + String.valueOf(m.getRating()));
+		desc.setText(m.getDesc());
 		
 		// genre
-		genre.setText(m.getGenre());
+		produto.setText(m.getProduto());
 		
 		// release year
-		year.setText("Numero da Nota " + m.getYear());
+		nnotas.setText(m.getNnotas());
 		//tag
+		data.setText(m.getData());
 
 		return convertView;
 	}
