@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +39,6 @@ public class SalaUsuario extends Activity {
     private CustomListAdapter adapter;
     private List<Movie> movieList = new ArrayList<Movie>();
     private TextView txtLogin;
-    private ImageButton btnVer = (ImageButton) findViewById(R.id.btnVer);
     private int[] itemId;
 
 
@@ -69,6 +67,7 @@ public class SalaUsuario extends Activity {
 
         // Creating volley request obj
         progressDialog = ProgressDialog.show(SalaUsuario.this,"Carregando Pedidos","Aguarde",true);
+
         CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.GET, url+"/pedidos/jor/"+id, params, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -79,8 +78,9 @@ public class SalaUsuario extends Activity {
                 for (int i = 0; i < response.length(); i++) {
                     try {
 
-                        JSONObject obj = response.getJSONObject(i);
                         Movie movie = new Movie();
+
+                        JSONObject obj = response.getJSONObject(i);
                         movie.setTitle(obj.getString("desc"));
                         //movie.setThumbnailUrl(obj.getString("image"));
                         movie.setRating(obj.getString("data"));
@@ -94,10 +94,9 @@ public class SalaUsuario extends Activity {
                         //}
                         movie.setGenre(obj.getString("produto"));
                         // adding movie to movies array
-                        movie.setTag;
                         movieList.add(movie);
-
                         progressDialog.dismiss();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         progressDialog.dismiss();
@@ -119,20 +118,17 @@ public class SalaUsuario extends Activity {
         jar.setTag("TAG");
         rq.add(jar);
 
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                try{
+                Intent intent = new Intent(SalaUsuario.this,Detalhes.class);
+                intent.putExtra("desc", movieList.get(i).getTitle());
+                intent.putExtra("data", movieList.get(i).getRating());
+                intent.putExtra("nnotas", movieList.get(i).getYear());
+                intent.putExtra("produtos", movieList.get(i).getGenre());
 
-                    String tag = btnVer.getTag().toString();
-
-                    Log.i("IDP", tag);
-                }catch (Exception e){
-                    Log.i("ERRO", e.toString());
-                }
-
+                startActivity(intent);
 
             }
         });
