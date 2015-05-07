@@ -13,6 +13,11 @@
         >
 
     </FrameLayout>
+
+    <!--
+        Usar futuramente para carregar a imagem
+    -->
+
     <FrameLayout
         android:id="@+id/detalhes_fml_image"
         android:layout_width="fill_parent"
@@ -27,7 +32,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center" />
     </FrameLayout>
-
+    <!--  descrição do pedido -->
     <FrameLayout
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -48,8 +53,9 @@
             android:text="desc"
             android:layout_gravity="center" />
     </FrameLayout>
+    <!--
 
-            <!-- Rating -->
+
             <TextView
                 android:id="@+id/detalhes_txt_data"
                 android:layout_width="fill_parent"
@@ -61,7 +67,7 @@
                 android:text="data"
                 />
 
-            <!-- Genre -->
+
             <TextView
                 android:id="@+id/detalhes_txt_produtos"
                 android:layout_width="fill_parent"
@@ -73,7 +79,7 @@
                 android:textSize="@dimen/genre"
                 android:text="Produtos" />
 
-            <!-- Release Year -->
+
         <TextView
             android:id="@+id/detalhes_txt_nnotas"
             android:layout_width="wrap_content"
@@ -84,6 +90,7 @@
             android:textSize="@dimen/year"
             android:text="nnotas"
             android:layout_gravity="center_horizontal|top" />
+    -->
 
 
 </RelativeLayout>
