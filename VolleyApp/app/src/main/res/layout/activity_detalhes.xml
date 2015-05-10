@@ -59,7 +59,6 @@
                 android:layout_height="100dp"
                 android:layout_below="@id/detalhes_fml_image"
                 android:layout_marginLeft="10dp"
-                android:background="@color/material_deep_teal_200"
                 android:layout_gravity="left|top"
 
                 >
@@ -80,7 +79,6 @@
                 android:id="@+id/detalhes_fml_data"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:background="@color/material_deep_teal_200"
                 android:layout_alignTop="@+id/detalhes_fml_desc"
                 android:layout_centerHorizontal="true"
                 android:layout_marginRight="10dp"
@@ -102,8 +100,6 @@
                 android:layout_height="100dp"
                 android:layout_below="@id/detalhes_fml_data"
                 android:layout_marginLeft="10dp"
-                android:background="@color/material_deep_teal_200"
-
                 android:layout_gravity="left|bottom">
                 <!-- Movie Title -->
                 <TextView
