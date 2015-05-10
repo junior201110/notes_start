@@ -1,11 +1,17 @@
 package com.example.junior.volleyapp;
 
-import android.text.TextUtils;
+import android.content.Context;
+import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.junior.volleyapp.conexao.CustomJsonArraytRequest;
-import com.example.junior.volleyapp.conexao.CustomJsonObjectRequest;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +27,21 @@ public class NovoPedido {
     private String nnotas;
     private String data;
     private String iduser;
+    private RequestQueue rq;
 
     public NovoPedido(){}
-    public NovoPedido(String desc, String produto, String nnotas, String data, String iduser){
+    public NovoPedido(Context context,String desc, String produto, String nnotas, String data, String iduser){
         this.setDesc(desc);
         this.setProduto(produto);
         this.setNnotas(nnotas);
         this.setData(data);
         this.setIduser(iduser);
+
+        rq = Volley.newRequestQueue(context);
     }
     private String insertUser(){
 
+        final String[] res = {""};
 
         params = new HashMap<String, String>();
         params.put("desc",getDesc());
@@ -40,9 +50,27 @@ public class NovoPedido {
         params.put("data",getData());
         params.put("iduser",getIduser());
 
-        CustomJsonObjectRequest jor = new CustomJsonObjectRequest();
+        CustomJsonArraytRequest jar = new CustomJsonArraytRequest(Request.Method.POST, url, params,
+                new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    res[0] = String.valueOf(response.get(0));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.i("INSERT ERROR", volleyError.toString());
+            }
+        });
 
-        return "inserted";
+        jar.setTag("novo");
+        rq.add(jar);
+
+        return res[0];
     }
 
     public String getDesc() {
