@@ -30,6 +30,10 @@
             android:name=".Detalhes"
             android:label="@string/title_activity_detalhes" >
         </activity>
+        <activity
+            android:name=".NovoPedido"
+            android:label="@string/title_activity_novo_pedido" >
+        </activity>
     </application>
 
 </manifest>
