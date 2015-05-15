@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class SalaUsuario extends Activity {
     private CustomListAdapter adapter;
     private List<Movie> movieList = new ArrayList<Movie>();
     private TextView txtLogin;
-    private int[] itemId;
+    private ImageButton btnAdd;
 
 
     @Override
@@ -52,6 +53,7 @@ public class SalaUsuario extends Activity {
         listView = (ListView) findViewById(R.id.listview);
         adapter = new CustomListAdapter(this, movieList);
         txtLogin = (TextView) findViewById(R.id.txtLogin);
+        btnAdd = (ImageButton) findViewById(R.id.sala_usuario_btnAdd);
 
         listView.setAdapter(adapter);
 
@@ -84,7 +86,7 @@ public class SalaUsuario extends Activity {
                         // usar mais tarde -> movie.setThumbnailUrl(obj.getString("image"));
 
                         movie.setIdp(obj.getString("idp"));
-                        movie.setDesc(obj.getString("desc"));
+                        movie.setDesc(obj.getString("descricao"));
                         movie.setProduto(obj.getString("produto"));
                         movie.setNnotas(obj.getString("nnotas"));
                         movie.setData(obj.getString("data"));
@@ -124,7 +126,7 @@ public class SalaUsuario extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(SalaUsuario.this,Detalhes.class);
+                Intent intent = new Intent(SalaUsuario.this, Detalhes.class);
                 intent.putExtra("idp", movieList.get(i).getIdp());
                 intent.putExtra("desc", movieList.get(i).getDesc());
                 intent.putExtra("data", movieList.get(i).getData());
@@ -136,11 +138,25 @@ public class SalaUsuario extends Activity {
             }
         });
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent add = new Intent(SalaUsuario.this, NovoPedido.class);
+
+                add.putExtra("iduser",id);
+
+                startActivity(add);
+
+            }
+        });
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
      }
 
 

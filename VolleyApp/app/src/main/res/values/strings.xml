@@ -21,5 +21,6 @@
     <color name="list_row_hover_start_color">#ebeef0</color>
     <color name="list_row_hover_end_color">#ebeef0</color>
     <string name="title_activity_detalhes">Detalhes</string>
+    <string name="title_activity_novo_pedido">novo_pedido</string>
 
 </resources>
